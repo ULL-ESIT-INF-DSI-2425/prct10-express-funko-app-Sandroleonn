@@ -1,4 +1,4 @@
-# Ejemplos de código utilizados en las clases de Desarrollo de Sistemas Informáticos
+# Práctica 3 - Tipos de datos estáticos y funciones
 
-Este texto aparecerá como cabecera de nuestra documentación generada.
+En esta práctica realizaremos una serie de ejercicios relacionados con los tipos de datos y las funciones
 
