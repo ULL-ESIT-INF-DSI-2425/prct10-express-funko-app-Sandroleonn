@@ -1,46 +1,24 @@
 import { describe, expect, test } from "vitest";
-import { romanToDecimal, decimalToRoman } from "../src/ejercicio-6"; // Ajusta la ruta según la ubicación de tus funciones
+import { myMap } from "../src/ejercicio-6";
 
-describe("romanToDecimal function tests", () => {
-    test('romanToDecimal("MCMXCV") returns 1995', () => {
-        expect(romanToDecimal("MCMXCV")).toBe(1995);
+describe("myMap function tests", () => {
+    test("myMap([0, 1, 2, 3, 4], (item) => item * item) returns [0, 1, 4, 9, 16]", () => {
+        expect(myMap([0, 1, 2, 3, 4], (item) => item * item)).toEqual([0, 1, 4, 9, 16]);
     });
 
-    test('romanToDecimal("MMXIV") returns 2014', () => {
-        expect(romanToDecimal("MMXIV")).toBe(2014);
+    test("myMap(['a', 'b', 'c'], (item) => item.toUpperCase()) returns ['A', 'B', 'C']", () => {
+        expect(myMap(['a', 'b', 'c'], (item) => item.toUpperCase())).toEqual(['A', 'B', 'C']);
     });
 
-    test('romanToDecimal("XIIII") returns undefined', () => {
-        expect(romanToDecimal("XIIII")).toBeUndefined();
+    test("myMap([true, false, true], (item) => !item) returns [false, true, false]", () => {
+        expect(myMap([true, false, true], (item) => !item)).toEqual([false, true, false]);
     });
 
-    test('romanToDecimal("invalid") returns undefined', () => {
-        expect(romanToDecimal("invalid")).toBeUndefined();
+    test("myMap([{ id: 1 }, { id: 2 }], (obj) => obj.id * 10) returns [10, 20]", () => {
+        expect(myMap([{ id: 1 }, { id: 2 }], (obj) => obj.id * 10)).toEqual([10, 20]);
     });
 
-    test('romanToDecimal("MCMXC") returns 1990', () => {
-        expect(romanToDecimal("MCMXC")).toBe(1990);
-    });
-});
-
-describe("decimalToRoman function tests", () => {
-    test('decimalToRoman(1995) returns "MCMXCV"', () => {
-        expect(decimalToRoman(1995)).toBe("MCMXCV");
-    });
-
-    test('decimalToRoman(2014) returns "MMXIV"', () => {
-        expect(decimalToRoman(2014)).toBe("MMXIV");
-    });
-
-    test('decimalToRoman(-1995) returns undefined', () => {
-        expect(decimalToRoman(-1995)).toBeUndefined();
-    });
-
-    test('decimalToRoman(0) returns undefined', () => {
-        expect(decimalToRoman(0)).toBeUndefined();
-    });
-
-    test('decimalToRoman(1) returns "I"', () => {
-        expect(decimalToRoman(1)).toBe("I");
+    test("myMap([], (item) => item) returns []", () => {
+        expect(myMap([], (item) => item)).toEqual([]);
     });
 });

@@ -1,30 +1,73 @@
 /**
- * Applies a binary operation between two values.
- * 
- * The function receives two generic operands and a function representing a binary operation.
- * The operation is applied to the two operands, and the result is returned.
- * This function allows applying any operation that matches the signature provided 
- * by the `operation` parameter.
- * 
- * The function performs the following operations:
- * - Receives two values of generic type `T`.
- * - Applies the provided binary operation to these two values.
- * 
- * @param firstOp - The first operand of generic type `T`.
- * @param secondOp - The second operand of generic type `T`.
- * @param operation - The binary operation to apply between the two operands. It must be a function that receives two parameters of type `T` and returns a value of type `T`.
- * @returns - The result of applying the operation between the two operands, of type `T`.
+ * Converts an array of consecutive numbers into a string representing ranges.
+ * @param lista - The array of numbers to be converted into ranges.
+ * @returns - A string representing the ranges, with individual numbers or ranges separated by commas.
  * 
  * ```typescript
- * applyOperation(3, 4, (x, y) => x + y) = 7
- * applyOperation(5, 2, (x, y) => x - y) = 3
- * applyOperation(2, 3, (x, y) => x * y) = 6
- * applyOperation(10, 5, (x, y) => x / y) = 2
+ * fromArrayToRanges([1, 2, 3, 5, 6, 7, 10]) // Returns '1_3, 5_7, 10'
+ * fromArrayToRanges([1, 3, 5, 7, 8, 9, 10]) // Returns '1, 3, 5, 7_10'
+ * fromArrayToRanges([]) // Returns ''
  * ```
  */
+export function fromArrayToRanges(lista: number[]): string {
+    if (lista.length === 0) {
+        return "";
+    }
+    let result: string[] = [];
+    let start = lista[0];
+    let end = lista[0];
 
-export function applyOperation<T>(firstOp: T, secondOp: T, operation: (x: T, y: T) => T): T {
-    return operation(firstOp, secondOp);
+    for (let i = 1; i < lista.length; i++) {
+        if (lista[i] === end + 1) {
+            end = lista[i];
+        }
+        else {
+            if (start === end) {
+                result.push(`${start}`);
+            }
+            else {
+                result.push(`${start}_${end}`)
+            }
+            start = lista[i];
+            end = lista[i];
+        }
+    }
+    if (start === end) {
+        result.push(`${start}`);
+    } else {
+        result.push(`${start}_${end}`);
+    }
+
+    return result.join(", ");
 }
 
+
+/**
+ * Converts a string representing ranges into an array of numbers.
+ * @param rangos - A string representing ranges or individual numbers, with ranges separated by commas and using "_" to indicate a range.
+ * @returns - An array of numbers corresponding to the ranges or individual numbers in the input string.
+ * 
+ * ```typescript
+ * fromRangesToArray('1_3, 5_7, 10') // Returns [1, 2, 3, 5, 6, 7, 10]
+ * fromRangesToArray('1, 3, 5, 7_10') // Returns [1, 3, 5, 7, 8, 9, 10]
+ * fromRangesToArray('4_6, 8') // Returns [4, 5, 6, 8]
+ * ```
+ */
+export function fromRangesToArray(rangos: string): number[] {
+    const resultado: number[] = [];
+    const partes = rangos.split(','); 
+    
+    for (const parte of partes) {
+        if (parte.includes('_')) {
+            const [start, end] = parte.split('_').map(Number); 
+            for (let i = start; i <= end; i++) {
+                resultado.push(i); 
+            }
+        } else {
+            resultado.push(Number(parte));
+        }
+    }
+    
+    return resultado;
+}
 

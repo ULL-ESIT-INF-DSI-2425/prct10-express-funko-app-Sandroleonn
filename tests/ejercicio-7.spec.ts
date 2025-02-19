@@ -1,36 +1,76 @@
 import { describe, expect, test } from "vitest";
-import { getTypeTriangle } from "../src/ejercicio-7";
+import { checkAttack } from "../src/ejercicio-7";
+import type { ChessBoard } from "../src/ejercicio-7";
 
-describe("getTypeTriangle function tests", () => {
-    test("getTypeTriangle(7, 7, 7) returns 'Equilátero'", () => {
-        expect(getTypeTriangle(7, 7, 7)).toBe("Equilátero");
+describe("checkAttack function tests", () => {
+    test("Reinas en la misma fila pueden atacarse", () => {
+        const board: ChessBoard = [
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "N", "-", "B", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+        ];
+        expect(checkAttack(board)).toBe(true);
     });
 
-    test("getTypeTriangle(5, 5, 9.5) returns 'Isósceles'", () => {
-        expect(getTypeTriangle(5, 5, 9.5)).toBe("Isósceles");
+    test("Reinas en la misma columna pueden atacarse", () => {
+        const board: ChessBoard = [
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "N", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "B", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+        ];
+        expect(checkAttack(board)).toBe(true);
     });
 
-    test("getTypeTriangle(5, 6, 7) returns 'Escaleno'", () => {
-        expect(getTypeTriangle(5, 6, 7)).toBe("Escaleno");
+    test("Reinas en la misma diagonal pueden atacarse", () => {
+        const board: ChessBoard = [
+            ["-", "-", "-", "N", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "B", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+        ];
+        expect(checkAttack(board)).toBe(true);
     });
 
-    test("getTypeTriangle(3, 1, 1) returns undefined", () => {
-        expect(getTypeTriangle(3, 1, 1)).toBeUndefined();
+    test("Reinas en posiciones seguras no pueden atacarse", () => {
+        const board: ChessBoard = [
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "N", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "B", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+        ];
+        expect(checkAttack(board)).toBe(false);
     });
 
-    test("getTypeTriangle(-3, 1, 1) returns undefined", () => {
-        expect(getTypeTriangle(-3, 1, 1)).toBeUndefined();
-    });
+    test("Tablero inválido devuelve undefined", () => {
+        const invalidBoard = [
+            ["-", "-", "-", "N", "-", "-", "-"], // Solo 7 columnas en esta fila
+            ["-", "-", "-", "-", "B", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+            ["-", "-", "-", "-", "-", "-", "-", "-"],
+        ] as any; // Forzamos un tablero inválido para probar el comportamiento
 
-    test("getTypeTriangle(0, 1, 1) returns undefined", () => {
-        expect(getTypeTriangle(0, 1, 1)).toBeUndefined();
-    });
-
-    test("getTypeTriangle(1, 1, 1) returns 'Equilátero'", () => {
-        expect(getTypeTriangle(1, 1, 1)).toBe("Equilátero");
-    });
-
-    test("getTypeTriangle(2, 3, 6) returns undefined", () => {
-        expect(getTypeTriangle(2, 3, 6)).toBeUndefined();
+        expect(checkAttack(invalidBoard)).toBeUndefined();
     });
 });

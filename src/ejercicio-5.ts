@@ -1,33 +1,67 @@
 /**
- * Finds all Pythagorean triplets for a given number.
- * A Pythagorean triplet consists of three positive integers `a`, `b`, and `c`, such that:
- * - a² + b² = c²
- * The function returns all valid triplets where the sum of `a`, `b`, and `c` is equal to the given number.
- * If no valid triplets are found or the input number is invalid, the function returns `undefined`.
- * @param numero - A positive integer to find Pythagorean triplets whose sum equals this number.
- * @returns - A string containing all the found triplets in the format '(a, b, c)', separated by semicolons, or `undefined` if no valid triplets are found or the input is invalid.
+ * Generates a spiral matrix of given dimension.
+ * @param dimension - The size of the matrix (NxN). Must be a positive integer.
+ * @returns - A 2D array filled with numbers in a spiral order, or `undefined` if `dimension` is 0 or negative.
  * ```typescript
- * getTriplets(12) = '(3, 4, 5)'
- * getTriplets(1000) = '(200, 375, 425); (375, 500, 625); (200, 399, 401)'
- * getTriplets(5) = undefined
- * getTriplets(0) = undefined
- * getTriplets(-1) = undefined
+ * getSpiralMatrix(3)
+ * // Returns:
+ * // [
+ * //   [1, 2, 3],
+ * //   [8, 9, 4],
+ * //   [7, 6, 5]
+ * // ]
+ * 
+ * getSpiralMatrix(4)
+ * // Returns:
+ * // [
+ * //   [1, 2, 3, 4],
+ * //   [12, 13, 14, 5],
+ * //   [11, 16, 15, 6],
+ * //   [10, 9, 8, 7]
+ * // ]
+ * 
+ * getSpiralMatrix(0) 
+ * // Returns undefined (invalid input)
  * ```
  */
-export function getTriplets(numero: number): string | undefined {
-    if (numero <= 0 || !Number.isInteger(numero)) {
+export function getSpiralMatrix(dimension: number): number[][] | undefined {
+    if (dimension <= 0) {
         return undefined;
     }
-    let triplets: string[] = [];
-    for (let a = 1; a < numero; a++) {
-        for (let b = a + 1; b < numero; b++) {
-            let c = numero - a - b; // c es determinado por la suma total N
-            if (c > b && a * a + b * b === c * c) { // Verificamos la propiedad de Pitágoras
-                triplets.push(`(${a}, ${b}, ${c})`);
+    let matrix: number[][] = [];
+    for (let i = 0; i < dimension; i++) {
+        matrix[i] = new Array(dimension).fill(0);
+    }
+
+    let left = 0, right = dimension - 1, top = 0, bottom = dimension - 1;
+    let num = 1;
+
+    while (left <= right && top <= bottom) {
+        for (let i = left; i <= right; i++) {
+            matrix[top][i] = num++;
+        }
+        top++;
+
+        for (let i = top; i <= bottom; i++) {
+            matrix[i][right] = num++;
+        }
+        right--;
+
+        if (top <= bottom) {
+            for (let i = right; i >= left; i--) {
+                matrix[bottom][i] = num++;
             }
+            bottom--;
+        }
+
+        if (left <= right) {
+            for (let i = bottom; i >= top; i--) {
+                matrix[i][left] = num++;
+            }
+            left++;
         }
     }
 
-    // Si encontramos tripletas, las retornamos en el formato adecuado
-    return triplets.length > 0 ? triplets.join('; ') : undefined;
+    return matrix;
 }
+

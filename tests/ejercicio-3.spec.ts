@@ -1,40 +1,28 @@
 import { describe, expect, test } from "vitest";
-import { fromIntToActions } from "../src/ejercicio-3";
+import { getScore } from "../src/ejercicio-3"; // Asegúrate de que la ruta es correcta
 
-describe("fromIntToActions function tests", () => {
-    test("fromIntToActions(19) returns 'Parpadear, Parpadear dos veces, Saltar'", () => {
-        expect(fromIntToActions(19)).toBe("Parpadear, Parpadear dos veces, Saltar");
+describe("getScore function tests", () => {
+    test("getScore([]) returns an empty array", () => {
+        expect(getScore([])).toEqual([]);
     });
 
-    test("fromIntToActions(10) returns 'Parpadear dos veces, Levantar las cejas'", () => {
-        expect(fromIntToActions(10)).toBe("Parpadear dos veces, Levantar las cejas");
+    test("getScore(['kilo', 'almendras', 'llano', 'wenceslao', 'ratón']) returns correct scores", () => {
+        expect(getScore(['kilo', 'almendras', 'llano', 'wenceslao', 'ratón'])).toEqual([undefined, 12, 11, undefined, 5]);
     });
 
-    test("fromIntToActions(4) returns 'Mover la nariz'", () => {
-        expect(fromIntToActions(4)).toBe("Mover la nariz");
+    test("getScore(['chico', 'zapato']) returns correct scores for 'chico' and 'zapato'", () => {
+        expect(getScore(['chico', 'zapato'])).toEqual([10, 17]); // 'chico' -> 13, 'zapato' -> 7
     });
 
-    test("fromIntToActions(0) returns undefined", () => {
-        expect(fromIntToActions(0)).toBeUndefined();
+    test("getScore(['mesa', 'ratón']) returns correct scores for valid words", () => {
+        expect(getScore(['mesa', 'ratón'])).toEqual([6, 5]);
     });
 
-    test("fromIntToActions(32) returns undefined", () => {
-        expect(fromIntToActions(32)).toBeUndefined();
+    test("getScore(['café', 'pescado']) returns correct scores with accent replacements", () => {
+        expect(getScore(['café', 'pescado'])).toEqual([9, 12]); // 'café' -> 'cafe' -> 6, 'pescado' -> 8
     });
 
-    test("fromIntToActions(1) returns 'Parpadear'", () => {
-        expect(fromIntToActions(1)).toBe("Parpadear");
-    });
-
-    test("fromIntToActions(31) returns 'Parpadear, Parpadear dos veces, Mover la nariz, Levantar las cejas, Saltar'", () => {
-        expect(fromIntToActions(31)).toBe("Parpadear, Parpadear dos veces, Mover la nariz, Levantar las cejas, Saltar");
-    });
-
-    test("fromIntToActions(16) returns 'Saltar'", () => {
-        expect(fromIntToActions(16)).toBe("Saltar");
-    });
-
-    test("fromIntToActions(3) returns 'Parpadear, Parpadear dos veces'", () => {
-        expect(fromIntToActions(3)).toBe("Parpadear, Parpadear dos veces");
+    test("getScore(['wenceslao', 'kilo']) returns 'undefined' for invalid words", () => {
+        expect(getScore(['wenceslao', 'kilo'])).toEqual([undefined, undefined]); // 'wenceslao' contains 'w', 'kilo' contains 'k'
     });
 });

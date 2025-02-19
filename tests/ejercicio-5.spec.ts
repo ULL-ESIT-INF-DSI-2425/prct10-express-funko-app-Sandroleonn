@@ -1,17 +1,40 @@
 import { describe, expect, test } from "vitest";
-import { getTriplets } from "../src/ejercicio-5"; // Asegúrate de poner la ruta correcta
+import { getSpiralMatrix } from "../src/ejercicio-5"; // Asegúrate de que la ruta sea la correcta
 
-describe("getTriplets function tests", () => {
-    test("getTriplets(1000) returns '(200, 375, 425)'", () => {
-        expect(getTriplets(1000)).toBe("(200, 375, 425)"); // Caso con una tripleta válida
-    });
+describe("Funciones de matrices espirales", () => {
+  test("getSpiralMatrix(3) retorna la matriz espiral correcta", () => {
+    const result = getSpiralMatrix(3);
+    expect(result).toEqual([
+      [1, 2, 3],
+      [8, 9, 4],
+      [7, 6, 5]
+    ]);
+  });
 
-    test("getTriplets(-153) returns undefined", () => {
-        expect(getTriplets(-153)).toBeUndefined(); // Caso con un número negativo
-    });
+  test("getSpiralMatrix(4) retorna la matriz espiral correcta", () => {
+    const result = getSpiralMatrix(4);
+    expect(result).toEqual([
+      [1, 2, 3, 4],
+      [12, 13, 14, 5],
+      [11, 16, 15, 6],
+      [10, 9, 8, 7]
+    ]);
+  });
 
-    test("getTriplets(3) returns undefined", () => {
-        expect(getTriplets(3)).toBeUndefined(); // Caso con un número pequeño sin tripletas válidas
-    });
+  test("getSpiralMatrix(1) retorna la matriz espiral correcta", () => {
+    const result = getSpiralMatrix(1);
+    expect(result).toEqual([
+      [1]
+    ]);
+  });
+
+  test("getSpiralMatrix(0) retorna undefined", () => {
+    const result = getSpiralMatrix(0);
+    expect(result).toBeUndefined();
+  });
+
+  test("getSpiralMatrix(-1) retorna undefined", () => {
+    const result = getSpiralMatrix(-1);
+    expect(result).toBeUndefined();
+  });
 });
-

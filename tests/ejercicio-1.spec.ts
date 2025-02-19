@@ -1,29 +1,28 @@
 import { describe, expect, test } from "vitest";
-import { onePunch } from "../src/ejercicio-1";
+import { add, sub, prod, conj, abs } from "../src/ejercicio-1";
+import type { NumeroComplejo } from "../src/ejercicio-1";
 
-describe("onePunch function tests", () => {
-    test("onePunch('Beard', 'Jeans', 'Hairbrush', 'Knuckleduster', 'Sand') returns 'Brd Hirbrush Jns Knuckldustr Snd'", () => {
-        expect(onePunch('Beard', 'Jeans', 'Hairbrush', 'Knuckleduster', 'Sand')).toBe('Brd Hirbrush Jns Knuckldustr Snd');
+describe("Funciones de números complejos", () => {
+    const complejo1: NumeroComplejo = { real: 3, imaginario: 4 };
+    const complejo2: NumeroComplejo = { real: 1, imaginario: -2 };
+
+    test("add(complejo1, complejo2) retorna { real: 4, imaginario: 2 }", () => {
+        expect(add(complejo1, complejo2)).toEqual({ real: 4, imaginario: 2 });
     });
 
-    test("onePunch('Sock', 'Beard', 'Vest', 'Lady', 'Sage') returns 'Brd Ldy Sg Sock Vst'", () => {
-        expect(onePunch('Sock', 'Beard', 'Vest', 'Lady', 'Sage')).toBe('Brd Ldy Sg Sock Vst');
+    test("sub(complejo1, complejo2) retorna { real: 2, imaginario: 6 }", () => {
+        expect(sub(complejo1, complejo2)).toEqual({ real: 2, imaginario: 6 });
     });
 
-    test("onePunch('Beard', 'Sack', 'Gun', 'Parachute', 'Face-Kicking-Shoes') returns 'Brd Fc-Kicking-Shos Gun Prchut Sck'", () => {
-        expect(onePunch('Beard', 'Sack', 'Gun', 'Parachute', 'Face-Kicking-Shoes')).toBe('Brd Fc-Kicking-Shos Gun Prchut Sck');
+    test("prod(complejo1, 2) retorna { real: 6, imaginario: 8 }", () => {
+        expect(prod(complejo1, 2)).toEqual({ real: 6, imaginario: 8 });
     });
 
-    test("onePunch() returns 'Broken!'", () => {
-        expect(onePunch()).toBe('Broken!');
+    test("conj(complejo1) retorna { real: 3, imaginario: -4 }", () => {
+        expect(conj(complejo1)).toEqual({ real: 3, imaginario: -4 });
     });
 
-    test("onePunch('') returns 'Broken!'", () => {
-        expect(onePunch('')).toBe('Broken!');
-    });
-
-    test("onePunch('', '') returns 'Broken!'", () => {
-        expect(onePunch('', '')).toBe('Broken!');
+    test("abs(complejo1) retorna 5", () => {
+        expect(abs(complejo1)).toBe(5);
     });
 });
-

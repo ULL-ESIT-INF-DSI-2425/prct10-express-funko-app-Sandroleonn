@@ -1,42 +1,53 @@
+export type Colours = [string, number];
+
+export const ColoursCombinations: Colours[] = [
+    ["Negro", 0],
+    ["Marrón", 1],
+    ["Rojo", 2],
+    ["Naranja", 3],
+    ["Amarillo", 4],
+    ["Verde", 5],
+    ["Azul", 6],
+    ["Violeta", 7],
+    ["Gris", 8],
+    ["Blanco", 9]
+];
+
 /**
- * Validates a credit card number using the Luhn algorithm.
- * Checks whether the credit card number is valid based on the Luhn formula.
- * If the credit card number is valid, returns 'valid'; if invalid, returns 'notValid'.
- * If the input is malformed or does not contain exactly 16 digits, returns `undefined`.
- * @param creditcard - A string or number representing the credit card number. It can include spaces or be a numeric value.
- * @returns - 'valid' if the credit card is valid, 'notValid' if invalid, or `undefined` if the input is not a valid 16-digit number.
+ * Decode the value of a resistor based on its color bands.
+ * @param colours - An array of color names representing the resistor bands.
+ * @returns - The numerical value of the resistor or an error message if invalid input is provided.
  * ```typescript
- * checkCreditCard('1234 5678 1234 5678') = 'notValid'
- * checkCreditCard(1234567812345670)     = 'valid'
- * checkCreditCard('1234 5678 1234 56ab') = undefined
+ * decodeResistor(["red", "blue"]) 
+ * // Returns the corresponding resistor value
+ * 
+ * decodeResistor(["green"]) 
+ * // Returns "Se requieren al menos dos colores para decodificar la resistencia."
+ * 
+ * decodeResistor(["black", "invalidColor"]) 
+ * // Returns "Uno o más colores no son válidos."
  * ```
  */
-export function checkCreditCard(creditcard: string | number): "valid" | "notValid" | undefined {
-    if (typeof creditcard == 'number') {
-        creditcard = creditcard.toString();
+export function decodeResistor(colours: string[]): number | string {
+    if (colours.length < 2) {
+        return "Se requieren al menos dos colores para decodificar la resistencia.";
     }
-    creditcard = creditcard.split(' ').join('');
-    if (creditcard.length != 16) {
-        return undefined;
+    const firstColor: string = colours[0];
+    const secondColor: string = colours[1];
+
+    const first = ColoursCombinations.find(([color]) => color === firstColor);
+    const second = ColoursCombinations.find(([color]) => color === secondColor);
+
+    if (!first || !second) {
+        return "Uno o más colores no son válidos.";
     }
-    let sum = 0;
-    for (let i = 0; i < creditcard.length; i++) {
-        if (creditcard[i] < '0' || creditcard[i] > '9') {
-            return undefined;
-        }
-        let digit = parseInt(creditcard[i]);
-        if (i % 2 == 0) {
-            digit *= 2;
-            if (digit > 9) {
-                digit -= 9;
-            }
-        }
-        sum += digit;
-    }
-    if (sum % 10 == 0) {
-        return 'valid';
-    }
-    else {
-        return 'notValid';
-    }
-}   
+
+    const [, firstValue] = first;
+    const [, secondValue] = second;
+
+    return firstValue * 10 + secondValue;
+}
+
+
+
+

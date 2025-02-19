@@ -1,40 +1,51 @@
 import { describe, expect, test } from "vitest";
-import { collatz } from "../src/ejercicio-4"; // Asegúrate de ajustar la ruta si es necesario
+import { getPoints } from "../src/ejercicio-4";  // Cambia la ruta al archivo correcto
 
-describe("collatz function tests", () => {
-    test("collatz(10) returns 6", () => {
-        expect(collatz(10)).toBe(6);
+describe("Pruebas de la función getPoints", () => {
+
+    test("getPoints([3, 5], 15) debe retornar 45", () => {
+        const puntos = { objects: [3, 5], fase: 15 };
+        expect(getPoints(puntos)).toBe(45);
     });
 
-    test("collatz(5) returns 5", () => {
-        expect(collatz(5)).toBe(5);
+    test("getPoints([2], 10) debe retornar 30", () => {
+        const puntos = { objects: [2], fase: 10 };
+        expect(getPoints(puntos)).toBe(20);
     });
 
-    test("collatz(1) returns 0", () => {
-        expect(collatz(1)).toBe(0); // No hay iteraciones porque ya es 1
+    test("getPoints([3, 5], 5) debe retornar 3", () => {
+        const puntos = { objects: [3, 5], fase: 5 };
+        expect(getPoints(puntos)).toBe(3);  // Solo múltiplos de 3 menores que 5
     });
 
-    test("collatz(-10) returns undefined", () => {
-        expect(collatz(-10)).toBeUndefined(); // Número negativo
+    test("getPoints([10, 20], 5) debe retornar 0", () => {
+        const puntos = { objects: [10, 20], fase: 5 };
+        expect(getPoints(puntos)).toBe(0);  // No hay múltiplos menores que 5
     });
 
-    test("collatz(0) returns undefined", () => {
-        expect(collatz(0)).toBeUndefined(); // Número cero
+    test("getPoints([3, 5, 7], 15) debe retornar 70", () => {
+        const puntos = { objects: [3, 5, 7], fase: 15 };
+        expect(getPoints(puntos)).toBe(66);  // Múltiplos de 3, 5 y 7, sin duplicados
     });
 
-    test("collatz(3.5) returns undefined", () => {
-        expect(collatz(3.5)).toBeUndefined(); // Número decimal
+    test("getPoints([1, 2, 3], 100) debe retornar 2310", () => {
+        const puntos = { objects: [1, 2, 3], fase: 100 };
+        expect(getPoints(puntos)).toBe(4950);  // Suma de todos los múltiplos únicos de 1, 2, 3 menores que 100
     });
 
-    test("collatz(16) returns 4", () => {
-        expect(collatz(16)).toBe(4); // Proceso para el número 16
+    test("getPoints([3, 5], 0) debe retornar undefined", () => {
+        const puntos = { objects: [3, 5], fase: 0 };
+        expect(getPoints(puntos)).toBe(0);  // Fase 0 no genera múltiplos válidos
     });
 
-    test("collatz(3) returns 7", () => {
-        expect(collatz(3)).toBe(7); // Comprobación del número 3
+    test("getPoints([3, -5], 15) debe retornar undefined por número negativo", () => {
+        const puntos = { objects: [3, -5], fase: 15 };
+        expect(getPoints(puntos)).toBeUndefined();  // El número -5 en objects es inválido
     });
 
-    test("collatz(2) returns 1", () => {
-        expect(collatz(2)).toBe(1); // Proceso para el número 2
+    test("getPoints([3, 5], -10) debe retornar undefined por fase negativa", () => {
+        const puntos = { objects: [3, 5], fase: -10 };
+        expect(getPoints(puntos)).toBeUndefined();  // Fase negativa no es válida
     });
+
 });

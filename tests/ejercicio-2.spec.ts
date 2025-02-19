@@ -1,48 +1,29 @@
 import { describe, expect, test } from "vitest";
-import { checkCreditCard } from "../src/ejercicio-2";
+import { decodeResistor } from "../src/ejercicio-2"; // Asegúrate de que la ruta sea correcta
 
-describe("checkCreditCard function tests", () => {
-    test("Valid credit card with spaces returns 'valid'", () => {
-        expect(checkCreditCard("4539 3195 0343 6467")).toBe("valid");
-    });
+describe("decodeResistor function tests", () => {
+  test("decodeResistor(['Marrón', 'Verde']) returns 15", () => {
+    expect(decodeResistor(["Marrón", "Verde"])).toBe(15);
+  });
 
-    test("Valid credit card as number returns 'valid'", () => {
-        expect(checkCreditCard(4539319503436467)).toBe("valid");
-    });
+  test("decodeResistor(['Rojo', 'Naranja']) returns 23", () => {
+    expect(decodeResistor(["Rojo", "Naranja"])).toBe(23);
+  });
 
-    test("Invalid credit card returns 'notValid'", () => {
-        expect(checkCreditCard("8273 1232 7352 0569")).toBe("notValid");
-    });
+  test("decodeResistor(['Azul', 'Amarillo']) returns 64", () => {
+    expect(decodeResistor(["Azul", "Amarillo"])).toBe(64);
+  });
 
-    test("Invalid credit card as number returns 'notValid'", () => {
-        expect(checkCreditCard(8273123273520569)).toBe("notValid");
-    });
+  test("decodeResistor(['Rojo', 'Naranja', 'Azul']) ignores third color and returns 23", () => {
+    expect(decodeResistor(["Rojo", "Naranja", "Azul"])).toBe(23); // Ignora 'Azul'
+  });
 
-    test("Credit card with extra digits returns undefined", () => {
-        expect(checkCreditCard("8273 1232 7352 0569 0123")).toBeUndefined();
-    });
+  test("decodeResistor(['Azul']) returns message for insufficient colors", () => {
+    expect(decodeResistor(["Azul"])).toBe("Se requieren al menos dos colores para decodificar la resistencia.");
+  });
 
-    test("Credit card with too few digits returns undefined", () => {
-        expect(checkCreditCard("8273 0569")).toBeUndefined();
-    });
-
-    test("Credit card without spaces but too short returns undefined", () => {
-        expect(checkCreditCard("82730569")).toBeUndefined();
-    });
-
-    test("Credit card with non-numeric characters returns undefined", () => {
-        expect(checkCreditCard("4539 3195 0343 abcd")).toBeUndefined();
-    });
-
-    test("Empty input returns undefined", () => {
-        expect(checkCreditCard("")).toBeUndefined();
-    });
-
-    test("Non-numeric string returns undefined", () => {
-        expect(checkCreditCard("abcd efgh ijkl mnop")).toBeUndefined();
-    });
-
-    test("Credit card with only spaces returns undefined", () => {
-        expect(checkCreditCard("    ")).toBeUndefined();
-    });
+  test("decodeResistor(['Negro', 'Dorado']) returns message for invalid color", () => {
+    expect(decodeResistor(["Negro", "Dorado"])).toBe("Uno o más colores no son válidos.");
+  });
 });
+

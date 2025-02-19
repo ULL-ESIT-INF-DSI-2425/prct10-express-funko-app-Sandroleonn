@@ -1,254 +1,134 @@
 /**
- * Adds two fractions.
- * 
- * The function receives two fractions represented by numerators and denominators,
- * and returns their sum as a simplified fraction or as a number if the parameters
- * are of type `number`. If the parameters are of type `string`, the result is returned 
- * as a string.
- * 
- * The function performs the following operations:
- * - Converts `string` inputs to `number` if necessary.
- * - Adds the fractions using a common denominator.
- * - Simplifies the result using the greatest common divisor (GCD).
- * 
- * @param num1 - The numerator of the first fraction (can be of type `number` or `string`).
- * @param den1 - The denominator of the first fraction (can be of type `number` or `string`).
- * @param num2 - The numerator of the second fraction (can be of type `number` or `string`).
- * @param den2 - The denominator of the second fraction (can be of type `number` or `string`).
- * @returns - The result of the fraction addition as a number or string, or `undefined` if there is a conversion error or zero denominator.
+ * Appends all elements of `lista2` to `lista1`.
+ * @param lista1 - The first list (either of numbers or strings) to which the elements of `lista2` will be added.
+ * @param lista2 - The second list (either of numbers or strings) whose elements will be appended to `lista1`.
+ * @returns - A new list containing all elements from `lista1` followed by all elements from `lista2`.
  * 
  * ```typescript
- * addRational(1, 2, 1, 3) = 5/6
- * addRational("1", "2", "1", "3") = "5/6"
- * addRational(1, 3, 2, 3) = 1
- * addRational("2", "3", "1", "3") = "3/3"
+ * append([1, 2], [3, 4]) // Returns [1, 2, 3, 4]
+ * append(['a', 'b'], ['c', 'd']) // Returns ['a', 'b', 'c', 'd']
  * ```
  */
-
-// Sobrecarga de la función: se definen diferentes combinaciones de parámetros.
-export function addRational(num1: number, den1: number, num2: number, den2: number): number;
-export function addRational(num1: string, den1: string, num2: string, den2: string): string;
-export function addRational(num1: number | string, den1: number | string, num2: number | string, den2: number | string): number | string | undefined {
-    // Convertir todos los parámetros a números
-    const n1 = typeof num1 === 'string' ? parseFloat(num1) : num1;
-    const d1 = typeof den1 === 'string' ? parseFloat(den1) : den1;
-    const n2 = typeof num2 === 'string' ? parseFloat(num2) : num2;
-    const d2 = typeof den2 === 'string' ? parseFloat(den2) : den2;
-
-    // Comprobamos si la conversión a número es válida
-    if (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2) || d1 === 0 || d2 === 0) {
-        return undefined;  // Retornamos undefined si hay un error de conversión o denominador cero
+export function append(lista1: number[] | string[], lista2: number[] | string[]): number[] | string[] {
+    let i = 0;
+    while (i < lista2.length) {
+        lista1[lista1.length] = lista2[i];
+        i++;
     }
-
-    // Realizamos la suma de fracciones: (num1/den1) + (num2/den2)
-    const numerator = (n1 * d2) + (n2 * d1);
-    const denominator = d1 * d2;
-
-    const divisor = mcd(numerator, denominator);
-    let numSimplificado = numerator / divisor;
-    let denSimplificado = denominator / divisor;
-
-    if (denSimplificado < 0) {
-        numSimplificado = -numSimplificado;
-        denSimplificado = -denSimplificado;
-    }
-
-    // Dependiendo de los tipos de entrada, retornamos el resultado como número o cadena
-    if (typeof num1 === 'string' || typeof num2 === 'string') {
-        return `${numSimplificado}/${denSimplificado}`;  // Retornamos como cadena
-    } else {
-        return numerator / denominator;  // Retornamos como número
-    }
+    return lista1;
 }
 
 /**
- * Subtracts two fractions.
- * 
- * The function receives two fractions represented by numerators and denominators,
- * and returns their difference as a simplified fraction or as a number if the parameters
- * are of type `number`. If the parameters are of type `string`, the result is returned 
- * as a string.
- * 
- * The function performs the following operations:
- * - Converts `string` inputs to `number` if necessary.
- * - Subtracts the fractions using a common denominator.
- * - Simplifies the result using the greatest common divisor (GCD).
- * 
- * @param num1 - The numerator of the first fraction (can be of type `number` or `string`).
- * @param den1 - The denominator of the first fraction (can be of type `number` or `string`).
- * @param num2 - The numerator of the second fraction (can be of type `number` or `string`).
- * @param den2 - The denominator of the second fraction (can be of type `number` or `string`).
- * @returns - The result of the fraction subtraction as a number or string, or `undefined` if there is a conversion error or zero denominator.
+ * Concatenates multiple lists (arrays) into a single list (array).
+ * @param listas - One or more arrays (of either numbers or strings) to be concatenated.
+ * @returns - A single array that contains all elements of the input arrays, in order.
  * 
  * ```typescript
- * subRational(3, 4, 1, 2) = 1/4
- * subRational("3", "4", "1", "2") = "1/4"
- * subRational(5, 6, 2, 3) = 1/6
- * subRational("5", "6", "2", "3") = "1/6"
+ * concatenate([1, 2], [3, 4], [5, 6]) // Returns [1, 2, 3, 4, 5, 6]
+ * concatenate(['a', 'b'], ['c', 'd'], ['e', 'f']) // Returns ['a', 'b', 'c', 'd', 'e', 'f']
  * ```
  */
+export function concatenate(...listas: number[][] | string[][]): (number | string)[] {
+    return [].concat(...listas);
+}
 
-export function subRational(num1: number, den1: number, num2: number, den2: number): number;
-export function subRational(num1: string, den1: string, num2: string, den2: string): string;
-export function subRational(num1: number | string, den1: number | string, num2: number | string, den2: number | string): number | string | undefined {
-    // Convertir todos los parámetros a números
-    const n1 = typeof num1 === 'string' ? parseFloat(num1) : num1;
-    const d1 = typeof den1 === 'string' ? parseFloat(den1) : den1;
-    const n2 = typeof num2 === 'string' ? parseFloat(num2) : num2;
-    const d2 = typeof den2 === 'string' ? parseFloat(den2) : den2;
 
-    // Comprobamos si la conversión a número es válida
-    if (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2) || d1 === 0 || d2 === 0) {
-        return undefined;  // Retornamos undefined si hay un error de conversión o denominador cero
+/**
+ * Filters the elements of a list based on a predicate function.
+ * @param lista - The list (array) of elements to be filtered.
+ * @param pred - A predicate function that tests each element. If it returns `true`, the element is included in the result.
+ * @returns - A new list containing only the elements that satisfy the predicate function.
+ * 
+ * ```typescript
+ * filter([1, 2, 3, 4], (x) => x > 2) // Returns [3, 4]
+ * filter(['apple', 'banana', 'cherry'], (x) => x.startsWith('b')) // Returns ['banana']
+ * ```
+ */
+export function filter<T>(lista: T[], pred: (item: T) => boolean): T[] {
+    const resultado: T[] = [];
+    for (let i = 0; i < lista.length; i++) {
+      if (pred(lista[i])) {
+        resultado.push(lista[i]);
+      }
     }
+    return resultado;
+}
 
-    // Realizamos la suma de fracciones: (num1/den1) + (num2/den2)
-    const numerator = (n1 * d2) - (n2 * d1);
-    const denominator = d1 * d2;
 
-    const divisor = mcd(numerator, denominator);
-    let numSimplificado = numerator / divisor;
-    let denSimplificado = denominator / divisor;
-
-    if (denSimplificado < 0) {
-        numSimplificado = -numSimplificado;
-        denSimplificado = -denSimplificado;
+/**
+ * Calculates the length of a list (array).
+ * @param lista - The list (array) whose length is to be calculated.
+ * @returns - The number of elements in the list.
+ * 
+ * ```typescript
+ * length([1, 2, 3]) // Returns 3
+ * length(['a', 'b', 'c', 'd']) // Returns 4
+ * ```
+ */
+export function length<T>(lista: T[]): number {
+    let contador = 0;
+    for (let i = 0; lista[i] !== undefined; i++) {
+      contador++;
     }
-    // Dependiendo de los tipos de entrada, retornamos el resultado como número o cadena
-    if (typeof num1 === 'string' || typeof num2 === 'string') {
-        return `${numSimplificado}/${denSimplificado}`;  // Retornamos como cadena
-    } else {
-        return numerator / denominator;  // Retornamos como número
-    }
+    return contador;
 }
 
 /**
- * Multiplies two fractions.
- * 
- * The function receives two fractions represented by numerators and denominators,
- * and returns their product as a simplified fraction or as a number if the parameters
- * are of type `number`. If the parameters are of type `string`, the result is returned 
- * as a string.
- * 
- * The function performs the following operations:
- * - Converts `string` inputs to `number` if necessary.
- * - Multiplies the fractions.
- * - Simplifies the result using the greatest common divisor (GCD).
- * 
- * @param num1 - The numerator of the first fraction (can be of type `number` or `string`).
- * @param den1 - The denominator of the first fraction (can be of type `number` or `string`).
- * @param num2 - The numerator of the second fraction (can be of type `number` or `string`).
- * @param den2 - The denominator of the second fraction (can be of type `number` or `string`).
- * @returns - The result of the fraction multiplication as a number or string, or `undefined` if there is a conversion error or zero denominator.
+ * Transforms each element of the list using a given function.
+ * @param lista - The list (array) of elements to be transformed.
+ * @param func - A function that takes an element of the list and returns a transformed value.
+ * @returns - A new list with the transformed elements.
  * 
  * ```typescript
- * multRational(2, 3, 3, 4) = 6/12
- * multRational("2", "3", "3", "4") = "6/12"
- * multRational(5, 6, 2, 3) = 10/18
- * multRational("5", "6", "2", "3") = "10/18"
+ * map([1, 2, 3], (x) => x * 2) // Returns [2, 4, 6]
+ * map(['apple', 'banana'], (x) => x.toUpperCase()) // Returns ['APPLE', 'BANANA']
  * ```
  */
-
-export function multRational(num1: number, den1: number, num2: number, den2: number): number;
-export function multRational(num1: string, den1: string, num2: string, den2: string): string;
-export function multRational(num1: number | string, den1: number | string, num2: number | string, den2: number | string): number | string | undefined {
-    // Convertir todos los parámetros a números
-    const n1 = typeof num1 === 'string' ? parseFloat(num1) : num1;
-    const d1 = typeof den1 === 'string' ? parseFloat(den1) : den1;
-    const n2 = typeof num2 === 'string' ? parseFloat(num2) : num2;
-    const d2 = typeof den2 === 'string' ? parseFloat(den2) : den2;
-
-    // Comprobamos si la conversión a número es válida
-    if (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2) || d1 === 0 || d2 === 0) {
-        return undefined;  // Retornamos undefined si hay un error de conversión o denominador cero
+export function map<T, U>(lista: T[], func: (item: T) => U): U[] {
+    let resultado: U[] = [];
+    for (let i = 0; i < lista.length; i++) {
+        resultado = [...resultado, func(lista[i])];
     }
-
-    // Realizamos la suma de fracciones: (num1/den1) + (num2/den2)
-    const numerator = n1 * n2;
-    const denominator = d1 * d2;
-
-    if (numerator === 0 || denominator === 0) {
-        return undefined;  // Devolvemos undefined para evitar resultados no válidos
-    }
-
-    const divisor = mcd(numerator, denominator);
-    const numSimplificado = numerator / divisor;
-    const denSimplificado = denominator / divisor;
-
-    // Dependiendo de los tipos de entrada, retornamos el resultado como número o cadena
-    if (typeof num1 === 'string' || typeof num2 === 'string') {
-        return `${numSimplificado}/${denSimplificado}`;  // Retornamos como cadena
-    } else {
-        return numerator / denominator;  // Retornamos como número
-    }
+    return resultado;
 }
 
 /**
- * Divides two fractions.
- * 
- * The function receives two fractions represented by numerators and denominators,
- * and returns their division as a simplified fraction or as a number if the parameters
- * are of type `number`. If the parameters are of type `string`, the result is returned 
- * as a string.
- * 
- * The function performs the following operations:
- * - Converts `string` inputs to `number` if necessary.
- * - Divides the fractions using the rule of inverting the second fraction.
- * - Simplifies the result using the greatest common divisor (GCD).
- * 
- * @param num1 - The numerator of the first fraction (can be of type `number` or `string`).
- * @param den1 - The denominator of the first fraction (can be of type `number` or `string`).
- * @param num2 - The numerator of the second fraction (can be of type `number` or `string`).
- * @param den2 - The denominator of the second fraction (can be of type `number` or `string`).
- * @returns - The result of the fraction division as a number or string, or `undefined` if there is a conversion error or zero denominator.
+ * Reduces the list to a single value by applying a function that accumulates the result.
+ * @param lista - The list (array) of elements to be reduced.
+ * @param func - A function that takes the accumulator and an element, and returns the new accumulator.
+ * @param accum - The initial value of the accumulator.
+ * @returns - The final accumulated value after processing all elements in the list.
  * 
  * ```typescript
- * divRational(2, 3, 4, 5) = 10/12
- * divRational("2", "3", "4", "5") = "10/12"
- * divRational(7, 8, 1, 2) = 14/8
- * divRational("7", "8", "1", "2") = "14/8"
+ * reduce([1, 2, 3], (acc, x) => acc + x, 0) // Returns 6
+ * reduce([1, 2, 3], (acc, x) => acc * x, 1) // Returns 6
  * ```
  */
-
-export function divRational(num1: number, den1: number, num2: number, den2: number): number;
-export function divRational(num1: string, den1: string, num2: string, den2: string): string;
-export function divRational(num1: number | string, den1: number | string, num2: number | string, den2: number | string): number | string | undefined {
-    // Convertir todos los parámetros a números
-    const n1 = typeof num1 === 'string' ? parseFloat(num1) : num1;
-    const d1 = typeof den1 === 'string' ? parseFloat(den1) : den1;
-    const n2 = typeof num2 === 'string' ? parseFloat(num2) : num2;
-    const d2 = typeof den2 === 'string' ? parseFloat(den2) : den2;
-
-    // Comprobamos si la conversión a número es válida
-    if (isNaN(n1) || isNaN(d1) || isNaN(n2) || isNaN(d2) || d1 === 0 || d2 === 0) {
-        return undefined;  // Retornamos undefined si hay un error de conversión o denominador cero
+export function reduce<T, U>(lista: T[], func: (accum: U, item: T) => U, accum: U): U {
+    for (let i = 0; i < lista.length; i++) {
+        accum = func(accum, lista[i]);
     }
-
-    if (n2 === 0) {
-        return undefined; // No se puede dividir por cero
-    }
-
-    // Realizamos la suma de fracciones: (num1/den1) + (num2/den2)
-    const numerator = n1 * d2;
-    const denominator = n2 * d1;
-
-    const divisor = mcd(numerator, denominator);
-    const numSimplificado = numerator / divisor;
-    const denSimplificado = denominator / divisor;
-
-    // Dependiendo de los tipos de entrada, retornamos el resultado como número o cadena
-    if (typeof num1 === 'string' || typeof num2 === 'string') {
-        return `${numSimplificado}/${denSimplificado}`;  // Retornamos como cadena
-    } else {
-        return numerator / denominator;  // Retornamos como número
-    }
+    return accum;
 }
 
-function mcd(a: number, b: number): number {
-    while (b !== 0) {
-        const resto = a % b;
-        a = b;
-        b = resto;
+/**
+ * Reverses the elements of the list (array).
+ * @param lista - The list (array) to be reversed.
+ * @returns - A new list with the elements in reverse order.
+ * 
+ * ```typescript
+ * reverse([1, 2, 3]) // Returns [3, 2, 1]
+ * reverse(['a', 'b', 'c']) // Returns ['c', 'b', 'a']
+ * ```
+ */
+export function reverse<T>(lista: T[]): T[] {
+    let resultado: T[] = [];
+    let j = 0;
+    for (let i = lista.length - 1; i >= 0; i--) {
+        resultado[j] = lista[i];
+        j++; 
     }
-    return a;
+    return resultado;
 }
+
+  

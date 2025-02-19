@@ -1,34 +1,48 @@
+export type Points = { objects: number[], fase: number };
+
 /**
- * Calculates the number of steps in the Collatz sequence for a given number.
- * The Collatz sequence is a sequence of numbers where:
- * - If the current number is even, divide it by 2.
- * - If the current number is odd, multiply it by 3 and add 1.
- * This process is repeated until the number becomes 1.
- * If the input number is less than or equal to 0 or not an integer, the function returns `undefined`.
- * @param numero - A positive integer to calculate the Collatz sequence.
- * @returns - The number of steps taken to reach 1, or `undefined` if the input is invalid.
+ * Calculate the sum of unique multiples of collected objects up to the completed phase.
+ * @param puntos - An object containing:
+ *   - `objects`: An array of numbers representing collected objects.
+ *   - `fase`: A number representing the completed phase.
+ * @returns - The sum of unique multiples of the objects up to `fase`, or `undefined` if any value is negative.
  * ```typescript
- * collatz(6)   = 8
- * collatz(19)  = 20
- * collatz(1)   = 0
- * collatz(0)   = undefined
- * collatz(-5)  = undefined
+ * getPoints({ objects: [3, 5], fase: 10 }) 
+ * // Returns 23 (3, 5, 6, 9 multiples combined and summed)
+ * 
+ * getPoints({ objects: [1, 2, 3], fase: 6 }) 
+ * // Returns 8 (1, 2, 3, 4, 5 combined and summed)
+ * 
+ * getPoints({ objects: [-1, 2], fase: 10 }) 
+ * // Returns undefined (invalid input)
  * ```
  */
-export function collatz(numero: number):number | undefined {
-    if (numero <= 0 || !Number.isInteger(numero)) {
+export function getPoints(puntos: Points): number | undefined {
+    for (let i = 0; i < puntos.objects.length; i++) {
+        if (puntos.objects[i] < 0) {
+            return undefined;
+        }
+    }
+    if (puntos.fase < 0) {
         return undefined;
     }
-    let contador = 0;
-    while (numero !== 1) {
-        if (numero % 2 == 0) {
-            numero = numero / 2;
-            contador++;
+
+    let multiplesLists: number[][] = [];
+    for (const obj of puntos.objects) {
+        let multiples: number[] = [];
+
+        for (let i = obj; i < puntos.fase; i += obj) {
+            multiples.push(i);
         }
-        else {
-            numero = 3 * numero + 1;
-            contador++;
-        }
+
+        multiplesLists.push(multiples);
     }
-    return contador;
+
+    let allMultiples = multiplesLists.flat();
+
+    const uniqueMultiples = [...new Set(allMultiples)];
+
+    const sum = uniqueMultiples.reduce((acc, val) => acc + val, 0);
+
+    return sum;
 }
