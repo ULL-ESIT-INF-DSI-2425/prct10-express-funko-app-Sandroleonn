@@ -1,4 +1,4 @@
-# Práctica 3 - Tipos de datos estáticos y funciones
+# Práctica 4 - Arrays, tuplas y enumerados
 
-En esta práctica realizaremos una serie de ejercicios relacionados con los tipos de datos y las funciones.
+En esta práctica realizaremos una serie de ejercicios relacionados con los arrays, tuplas y enumerados.
 
