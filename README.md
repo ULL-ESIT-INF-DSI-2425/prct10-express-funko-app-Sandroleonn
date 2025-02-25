@@ -1,4 +1,4 @@
-# Práctica 4 - Arrays, tuplas y enumerados
+# Práctica 5 - Objetos, clases e interfaces
 
-En esta práctica realizaremos una serie de ejercicios relacionados con los arrays, tuplas y enumerados.
+En esta práctica realizaremos una serie de ejercicios relacionados con los objetos, clases e interfaces.
 
