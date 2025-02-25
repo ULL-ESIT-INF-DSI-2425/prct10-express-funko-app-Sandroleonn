@@ -13,6 +13,11 @@ describe('Función fromRangesToArray', () => {
     expect(result).toEqual([17]);
   });
 
+  it('debe convertir una cadena con un solo número en un array con ese número', () => {
+    const result = fromRangesToArray("16");
+    expect(result).toEqual([16]);
+  });
+
   it('debe convertir una cadena con varios números individuales en un array de esos números', () => {
     const result = fromRangesToArray("3, 5, 7");
     expect(result).toEqual([3, 5, 7]);
