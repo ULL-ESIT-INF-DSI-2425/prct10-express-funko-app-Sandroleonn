@@ -103,10 +103,7 @@ export class Alimento extends Producto {
  * @param cantidadMililitros - Indica los mililitros de la bebida
  * 
  * ```typescript
- * const alimento = new ALimento("7865A", "Galleta", "200kcal por 100g", "A", 300);
- * const alimento2 = new ALimento("7865B", "Tostada", "100kcal por 100g", "B", 100);
  * const bebida = new Bebida("7864B", "Leche", "200kcal por 100ml", "A", 100);
- * const bebida2 = new Bebida("7864C", "Agua", "100kcal por 100ml", "B", 50);
  * ```
  */
 export class Bebida extends Producto {
@@ -138,7 +135,7 @@ export class Bebida extends Producto {
  * @param listaDeCompra - Array que contiene una lista de cadenas de lo que hay que comprar
  * 
  * ```typescript
- * const bebida = new Bebida("7864B", "Leche", "200kcal por 100ml", "A", 100);
+ * const nevera = new Nevera();
  * ```
  */
 export class Nevera {
