@@ -1,127 +1,135 @@
 import { describe, expect, test } from "vitest";
-import { Pokemon, Pokedex, Combat } from '../src/ejercicio-1'; // Ajusta la importación si es necesario
+import { Movie, Series, Documentary, MovieCollection, SeriesCollection, DocumentaryCollection } from "../src/ejercicio-1"; // Ajusta la importación si es necesario
 
-// Prueba de la clase Pokemon
-describe('Pokemon', () => {
-  test('debe crear un Pokémon correctamente', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    expect(pikachu.nombre).toBe("Pikachu");
-    expect(pikachu.peso).toBe(6);
-    expect(pikachu.altura).toBe(0.4);
-    expect(pikachu.tipo).toBe("eléctrico");
-    expect(pikachu.ataque).toBe(55);
-    expect(pikachu.defensa).toBe(40);
-    expect(pikachu.velocidad).toBe(90);
-    expect(pikachu.hp).toBe(100);
-  });
-
-  test('debe mostrar la información del Pokémon correctamente', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    const logOutput: string[] = [];
-    const originalConsoleLog = console.log;
-    console.log = (message: string) => logOutput.push(message);
-    pikachu.mostrarInformacion();
-    expect(logOutput[0]).toBe("Nombre: Pikachu");
-    expect(logOutput[1]).toBe("Tipo: eléctrico");
-    expect(logOutput[2]).toBe("Peso: 6 kg, Altura: 0.4 m");
-    expect(logOutput[3]).toBe("Ataque: 55, Defensa: 40");
-    expect(logOutput[4]).toBe("Velocidad: 90, HP: 100");
-    console.log = originalConsoleLog;
+// Pruebas para la clase Movie
+describe("Movie", () => {
+  test("debe crear una película correctamente", () => {
+    const inception = new Movie("Inception", 2010, "Christopher Nolan");
+    expect(inception.title).toBe("Inception");
+    expect(inception.year).toBe(2010);
+    expect(inception.director).toBe("Christopher Nolan");
   });
 });
 
-// Prueba de la clase Pokedex
-describe('Pokedex', () => {
-  test('debe agregar y mostrar Pokémon correctamente', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    const charizard = new Pokemon("Charizard", 90, 1.7, "fuego", 84, 78, 100, 150);
-    const bulbasaur = new Pokemon("Bulbasaur", 6.9, 0.7, "hierba", 49, 49, 45, 100);
-    const squirtle = new Pokemon("Squirtle", 9, 0.5, "agua", 48, 65, 43, 100);
-  
-    const pokedex = new Pokedex();
-    pokedex.agregarPokemon(pikachu);
-    pokedex.agregarPokemon(charizard);
-    pokedex.agregarPokemon(bulbasaur);
-    pokedex.agregarPokemon(squirtle);
-  
-    const logOutput: string[] = [];
-    const originalConsoleLog = console.log;
-    console.log = (message: string) => logOutput.push(message);
-  
-    pokedex.mostrarPokedex();
-  
-    expect(logOutput[0]).toContain("========================");
-    expect(logOutput[1]).toContain("Nombre: Pikachu");
-    expect(logOutput[6]).toContain("========================");
-    expect(logOutput[7]).toContain("Nombre: Charizard");
-    expect(logOutput[12]).toContain("========================");
-    expect(logOutput[13]).toContain("Nombre: Bulbasaur");
-    expect(logOutput[18]).toContain("========================");
-    expect(logOutput[19]).toContain("Nombre: Squirtle");
-    console.log = originalConsoleLog;
-  });
-
-  test('debe buscar Pokémon por nombre', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    const pokedex = new Pokedex();
-    pokedex.agregarPokemon(pikachu);
-  
-    const pokemonEncontrado = pokedex.buscarPorNombre("Pikachu");
-    expect(pokemonEncontrado).toBeDefined();
-    expect(pokemonEncontrado?.nombre).toBe("Pikachu");
-  
-    const pokemonNoEncontrado = pokedex.buscarPorNombre("Charmander");
-    expect(pokemonNoEncontrado).toBeUndefined();
-  });
-
-  test('debe buscar Pokémon por tipo', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    const charizard = new Pokemon("Charizard", 90, 1.7, "fuego", 84, 78, 100, 150);
-    const pokedex = new Pokedex();
-    pokedex.agregarPokemon(pikachu);
-    pokedex.agregarPokemon(charizard);
-  
-    const pokemonsElectricos = pokedex.buscarPorTipo("eléctrico");
-    expect(pokemonsElectricos.length).toBe(1);
-    expect(pokemonsElectricos[0].nombre).toBe("Pikachu");
-  
-    const pokemonsFuego = pokedex.buscarPorTipo("fuego");
-    expect(pokemonsFuego.length).toBe(1);
-    expect(pokemonsFuego[0].nombre).toBe("Charizard");
-  });
-
-  test('debe buscar Pokémon por ataque', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    const charizard = new Pokemon("Charizard", 90, 1.7, "fuego", 84, 78, 100, 150);
-    const pokedex = new Pokedex();
-    pokedex.agregarPokemon(pikachu);
-    pokedex.agregarPokemon(charizard);
-  
-    const pokemonsConAltoAtaque = pokedex.buscarPorAtaque(80);
-    expect(pokemonsConAltoAtaque.length).toBe(1);
-    expect(pokemonsConAltoAtaque[0].nombre).toBe("Charizard");
-  
-    const pokemonsConBajoAtaque = pokedex.buscarPorAtaque(40);
-    expect(pokemonsConBajoAtaque.length).toBe(2);
+// Pruebas para la clase Series
+describe("Series", () => {
+  test("debe crear una serie correctamente", () => {
+    const breakingBad = new Series("Breaking Bad", 2008, 5);
+    expect(breakingBad.title).toBe("Breaking Bad");
+    expect(breakingBad.year).toBe(2008);
+    expect(breakingBad.seasons).toBe(5);
   });
 });
 
-// Prueba de la clase Combat
-describe('Combat', () => {
-  test('debe simular un combate correctamente', () => {
-    const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
-    const charizard = new Pokemon("Charizard", 90, 1.7, "fuego", 84, 78, 100, 150);
-    const combate = new Combat(pikachu, charizard);
-  
-    const logOutput: string[] = [];
-    const originalConsoleLog = console.log;
-    console.log = (message: string) => logOutput.push(message);
-  
-    combate.start();
-  
-    expect(logOutput.some((line) => line.includes("¡Comienza el combate!"))).toBe(true);
-    expect(logOutput.some((line) => line.includes("ha sido derrotado"))).toBe(true);
-  
-    console.log = originalConsoleLog;
+// Pruebas para la clase Documentary
+describe("Documentary", () => {
+  test("debe crear un documental correctamente", () => {
+    const ourPlanet = new Documentary("Our Planet", 2019, "Naturaleza");
+    expect(ourPlanet.title).toBe("Our Planet");
+    expect(ourPlanet.year).toBe(2019);
+    expect(ourPlanet.topic).toBe("Naturaleza");
+  });
+});
+
+// Pruebas para MovieCollection
+describe("MovieCollection", () => {
+  test("debe agregar y buscar películas", () => {
+    const collection = new MovieCollection();
+    const inception = new Movie("Inception", 2010, "Christopher Nolan");
+    collection.addItem(inception);
+    expect(collection.getAll()).toContain(inception);
+  });
+
+  test("debe eliminar una película", () => {
+    const collection = new MovieCollection();
+    const inception = new Movie("Inception", 2010, "Christopher Nolan");
+    collection.addItem(inception);
+    collection.removeItem(inception);
+    expect(collection.getAll()).not.toContain(inception);
+  });
+
+  test("debe buscar películas por título", () => {
+    const collection = new MovieCollection();
+    const interstellar = new Movie("Interstellar", 2014, "Christopher Nolan");
+    collection.addItem(interstellar);
+    expect(collection.searchByTitle("Interstellar")).toContain(interstellar);
+  });
+
+  test("debe buscar películas por director", () => {
+    const collection = new MovieCollection();
+    const dunkirk = new Movie("Dunkirk", 2017, "Christopher Nolan");
+    collection.addItem(dunkirk);
+    expect(collection.specificSearch("Christopher Nolan")).toContain(dunkirk);
+  });
+
+  test("debe buscar películas por año", () => {
+    const collection = new MovieCollection();
+    const matrix = new Movie("The Matrix", 1999, "Wachowski");
+    collection.addItem(matrix);
+    expect(collection.searchByYear(1999)).toContain(matrix);
+  });
+});
+
+// Pruebas para SeriesCollection
+describe("SeriesCollection", () => {
+  test("debe agregar y buscar series", () => {
+    const collection = new SeriesCollection();
+    const breakingBad = new Series("Breaking Bad", 2008, 5);
+    collection.addItem(breakingBad);
+    expect(collection.getAll()).toContain(breakingBad);
+  });
+
+  test("debe eliminar una serie", () => {
+    const collection = new SeriesCollection();
+    const friends = new Series("Friends", 1994, 10);
+    collection.addItem(friends);
+    collection.removeItem(friends);
+    expect(collection.getAll()).not.toContain(friends);
+  });
+
+  test("debe buscar series por temporadas", () => {
+    const collection = new SeriesCollection();
+    const strangerThings = new Series("Stranger Things", 2016, 4);
+    collection.addItem(strangerThings);
+    expect(collection.specificSearch(4)).toContain(strangerThings);
+  });
+
+  test("debe buscar series por año", () => {
+    const collection = new SeriesCollection();
+    const lost = new Series("Lost", 2004, 6);
+    collection.addItem(lost);
+    expect(collection.searchByYear(2004)).toContain(lost);
+  });
+});
+
+// Pruebas para DocumentaryCollection
+describe("DocumentaryCollection", () => {
+  test("debe agregar y buscar documentales", () => {
+    const collection = new DocumentaryCollection();
+    const planetEarth = new Documentary("Planet Earth", 2006, "Naturaleza");
+    collection.addItem(planetEarth);
+    expect(collection.getAll()).toContain(planetEarth);
+  });
+
+  test("debe eliminar un documental", () => {
+    const collection = new DocumentaryCollection();
+    const cosmos = new Documentary("Cosmos", 2014, "Ciencia");
+    collection.addItem(cosmos);
+    collection.removeItem(cosmos);
+    expect(collection.getAll()).not.toContain(cosmos);
+  });
+
+  test("debe buscar documentales por tema", () => {
+    const collection = new DocumentaryCollection();
+    const cosmos = new Documentary("Cosmos", 2014, "Ciencia");
+    collection.addItem(cosmos);
+    expect(collection.specificSearch("Ciencia")).toContain(cosmos);
+  });
+
+  test("debe buscar documentales por año", () => {
+    const collection = new DocumentaryCollection();
+    const bluePlanet = new Documentary("Blue Planet", 2001, "Océanos");
+    collection.addItem(bluePlanet);
+    expect(collection.searchByYear(2001)).toContain(bluePlanet);
   });
 });

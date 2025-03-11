@@ -1,246 +1,171 @@
 /**
- * Tipo de Pokémon que puede ser uno de los siguientes: "fuego", "agua", "hierba", "eléctrico".
- */
-type Tipo = "fuego" | "agua" | "hierba" | "eléctrico";
-
-/**
- * Representa un Pokémon con sus propiedades.
+ * Interfaz genérica para colecciones de contenido en streaming.
  * 
- * @param nombre - El nombre del Pokémon.
- * @param peso - El peso del Pokémon en kilogramos.
- * @param altura - La altura del Pokémon en metros.
- * @param tipo - El tipo del Pokémon, que puede ser "fuego", "agua", "hierba" o "eléctrico".
- * @param ataque - El valor de ataque del Pokémon.
- * @param defensa - El valor de defensa del Pokémon.
- * @param velocidad - El valor de velocidad del Pokémon.
- * @param hp - El valor de puntos de salud (HP) del Pokémon.
+ * @template T - Tipo de contenido que se almacenará en la colección.
  * 
- * ```typescript
- * const pikachu = new Pokemon("Pikachu", 6, 0.4, "eléctrico", 55, 40, 90, 100);
- * ```
+ * @method addItem - Agrega un elemento a la colección.
+ * @method removeItem - Elimina un elemento de la colección.
+ * @method searchByTitle - Busca elementos por título.
+ * @method searchByYear - Busca elementos por año de lanzamiento.
+ * @method getAll - Obtiene todos los elementos de la colección.
  */
-export class Pokemon {
-    constructor(
-      public nombre: string,
-      public peso: number,
-      public altura: number,
-      public tipo: Tipo,
-      public ataque: number,
-      public defensa: number,
-      public velocidad: number,
-      public hp: number
-    ) {}
-
-    /**
-     * Muestra la información del Pokémon en la consola.
-     * 
-     * ```typescript
-     * pikachu.mostrarInformacion();
-     * ```
-     */
-    mostrarInformacion(): void {
-        console.log(`Nombre: ${this.nombre}`);
-        console.log(`Tipo: ${this.tipo}`);
-        console.log(`Peso: ${this.peso} kg, Altura: ${this.altura} m`);
-        console.log(`Ataque: ${this.ataque}, Defensa: ${this.defensa}`);
-        console.log(`Velocidad: ${this.velocidad}, HP: ${this.hp}`);
-    }
+interface Streamable<T> {
+    addItem(item: T): void;
+    removeItem(item: T): void;
+    searchByTitle(title: string): T[];
+    searchByYear(year: number): T[];
+    getAll(): T[];
 }
+  
+  /**
+   * Representa un contenido multimedia con propiedades básicas.
+   * 
+   * @param title - El título del contenido.
+   * @param year - El año de lanzamiento del contenido.
+   */
+  interface MediaContent {
+    title: string;
+    year: number;
+  }
+  
+  /**
+   * Clase abstracta que representa una colección básica de contenido en streaming.
+   * 
+   * @template T - Tipo de contenido que se almacenará en la colección.
+   * 
+   * @param items - Lista de elementos que componen la colección.
+   * 
+   * @method addItem - Agrega un elemento a la colección.
+   * @method removeItem - Elimina un elemento de la colección.
+   * @method searchByTitle - Busca elementos por título.
+   * @method searchByYear - Busca elementos por año de lanzamiento.
+   * @method getAll - Obtiene todos los elementos de la colección.
+   * @method specificSearch - Método abstracto que define una búsqueda específica en la colección.
+   */
+   abstract class BasicStreamableCollection<T extends MediaContent> implements Streamable<T> {
+    protected items: T[];
+  
+    constructor(items: T[] = []) {
+      this.items = items;
+    }
+  
+    addItem(item: T): void {
+      this.items.push(item);
+    }
+  
+    removeItem(item: T): void {
+      this.items = this.items.filter(i => i !== item);
+    }
+  
+    searchByTitle(title: string): T[] {
+      return this.items.filter(item => item.title.toLowerCase().includes(title.toLowerCase()));
+    }
+  
+    searchByYear(year: number): T[] {
+      return this.items.filter(item => item.year === year);
+    }
+  
+    getAll(): T[] {
+      return this.items;
+    }
+  
+    abstract specificSearch(criteria: any): T[];
+  }
+  
+  /**
+   * Representa una película con su título, año de lanzamiento y director.
+   * 
+   * @param title - El título de la película.
+   * @param year - El año de lanzamiento de la película.
+   * @param director - El director de la película.
+   * 
+   * ```typescript
+   * const inception = new Movie("Inception", 2010, "Christopher Nolan");
+   * ```
+   */
+  export class Movie implements MediaContent {
+    constructor(public title: string, public year: number, public director: string) {}
+  }
+  
+  /**
+   * Representa una serie con su título, año de lanzamiento y cantidad de temporadas.
+   * 
+   * @param title - El título de la serie.
+   * @param year - El año de lanzamiento de la serie.
+   * @param seasons - Número de temporadas de la serie.
+   * 
+   * ```typescript
+   * const breakingBad = new Series("Breaking Bad", 2008, 5);
+   * ```
+   */
+  export class Series implements MediaContent {
+    constructor(public title: string, public year: number, public seasons: number) {}
+  }
+  
+  /**
+   * Representa un documental con su título, año de lanzamiento y tema principal.
+   * 
+   * @param title - El título del documental.
+   * @param year - El año de lanzamiento del documental.
+   * @param topic - El tema principal del documental.
+   * 
+   * ```typescript
+   * const ourPlanet = new Documentary("Our Planet", 2019, "Naturaleza");
+   * ```
+   */
+  export class Documentary implements MediaContent {
+    constructor(public title: string, public year: number, public topic: string) {}
+  }
+  
+  /**
+   * Representa una colección de películas en streaming.
+   * 
+   * @method specificSearch - Busca películas por director.
+   * 
+   * ```typescript
+   * const movies = new MovieCollection();
+   * movies.addItem(new Movie("Interstellar", 2014, "Christopher Nolan"));
+   * console.log(movies.specificSearch("Christopher Nolan"));
+   * ```
+   */
+  export class MovieCollection extends BasicStreamableCollection<Movie> {
+    specificSearch(director: string): Movie[] {
+      return this.items.filter(movie => movie.director.toLowerCase().includes(director.toLowerCase()));
+    }
+  }
+  
+  /**
+   * Representa una colección de series en streaming.
+   * 
+   * @method specificSearch - Busca series por número de temporadas.
+   * 
+   * ```typescript
+   * const series = new SeriesCollection();
+   * series.addItem(new Series("Stranger Things", 2016, 4));
+   * console.log(series.specificSearch(4));
+   * ```
+   */
+  export class SeriesCollection extends BasicStreamableCollection<Series> {
+    specificSearch(seasons: number): Series[] {
+      return this.items.filter(series => series.seasons === seasons);
+    }
+  }
+  
+  /**
+   * Representa una colección de documentales en streaming.
+   * 
+   * @method specificSearch - Busca documentales por tema.
+   * 
+   * ```typescript
+   * const documentaries = new DocumentaryCollection();
+   * documentaries.addItem(new Documentary("Planet Earth", 2006, "Naturaleza"));
+   * console.log(documentaries.specificSearch("Naturaleza"));
+   * ```
+   */
+  export class DocumentaryCollection extends BasicStreamableCollection<Documentary> {
+    specificSearch(topic: string): Documentary[] {
+      return this.items.filter(doc => doc.topic.toLowerCase().includes(topic.toLowerCase()));
+    }
+  }
 
-/**
- * Representa una Pokédex que almacena y gestiona Pokémon.
- * 
- * ```typescript
- * const pokedex = new Pokedex();
- * pokedex.agregarPokemon(pikachu);
- * ```
- */
-export class Pokedex {
-    private pokemons: Pokemon[] = [];
   
-    /**
-     * Agrega un Pokémon a la Pokédex.
-     * 
-     * @param pokemon - El Pokémon que se agregará a la Pokédex.
-     * 
-     * ```typescript
-     * pokedex.agregarPokemon(pikachu);
-     * ```
-     */
-    agregarPokemon(pokemon: Pokemon): void {
-      this.pokemons.push(pokemon);
-    }
-  
-    /**
-     * Muestra todos los Pokémon registrados en la Pokédex.
-     * 
-     * ```typescript
-     * pokedex.mostrarPokedex();
-     * ```
-     */
-    mostrarPokedex(): void {
-      this.pokemons.forEach((pokemon) => {
-        console.log("========================");
-        pokemon.mostrarInformacion();
-      });
-    }
-  
-    /**
-     * Busca un Pokémon por su nombre en la Pokédex.
-     * 
-     * @param nombre - El nombre del Pokémon a buscar.
-     * @returns El Pokémon encontrado o undefined si no se encuentra.
-     * 
-     * ```typescript
-     * const pokemon = pokedex.buscarPorNombre("Pikachu");
-     * ```
-     */
-    buscarPorNombre(nombre: string): Pokemon | undefined {
-        const encontrado = this.pokemons.find((pokemon) => pokemon.nombre.toLowerCase() === nombre.toLowerCase());
-        return encontrado ? encontrado : undefined;
-    }
-      
-    /**
-     * Busca los Pokémon por su tipo en la Pokédex.
-     * 
-     * @param tipo - El tipo del Pokémon a buscar.
-     * @returns Un arreglo de Pokémon que coinciden con el tipo.
-     * 
-     * ```typescript
-     * const electricos = pokedex.buscarPorTipo("eléctrico");
-     * ```
-     */
-    buscarPorTipo(tipo: Tipo): Pokemon[] {
-      return this.pokemons.filter((pokemon) => pokemon.tipo === tipo);
-    }
-  
-    /**
-     * Busca los Pokémon por su valor de ataque en la Pokédex.
-     * 
-     * @param minAtaque - El valor mínimo de ataque para buscar Pokémon.
-     * @returns Un arreglo de Pokémon con un ataque mayor o igual al valor dado.
-     * 
-     * ```typescript
-     * const pokemonsConAltoAtaque = pokedex.buscarPorAtaque(80);
-     * ```
-     */
-    buscarPorAtaque(minAtaque: number): Pokemon[] {
-      return this.pokemons.filter((pokemon) => pokemon.ataque >= minAtaque);
-    }
-}
-
-/**
- * Representa un combate entre dos Pokémon.
- * 
- * @param primerContrincante - El primer Pokémon que participa en el combate.
- * @param segundoContrincante - El segundo Pokémon que participa en el combate.
- * 
- * ```typescript
- * const combate = new Combat(pikachu, charizard);
- * combate.start();
- * ```
- */
-export class Combat {
-    private primerContrincante: Pokemon;
-    private segundoContrincante: Pokemon;
-  
-    constructor(primerContrincante: Pokemon, segundoContrincante: Pokemon) {
-      this.primerContrincante = primerContrincante;
-      this.segundoContrincante = segundoContrincante;
-    }
-
-    /**
-     * Obtiene la efectividad del ataque según los tipos de los Pokémon.
-     * 
-     * @param tipoAtacante - El tipo del Pokémon atacante.
-     * @param tipoDefensor - El tipo del Pokémon defensor.
-     * @returns El valor de efectividad del ataque según los tipos.
-     * 
-     * ```typescript
-     * const efectividad = this.obtenerEfectividad("fuego", "agua");
-     * ```
-     */
-    private obtenerEfectividad(tipoAtacante: Tipo, tipoDefensor: Tipo): number {
-      const efectividad: { [key in Tipo]: { [key in Tipo]: number } } = {
-        fuego: {
-          fuego: 1,
-          agua: 0.5,
-          hierba: 2,
-          eléctrico: 1
-        },
-        agua: {
-          fuego: 2,
-          agua: 1,
-          hierba: 0.5,
-          eléctrico: 0.5
-        },
-        hierba: {
-          fuego: 0.5,
-          agua: 2,
-          hierba: 1,
-          eléctrico: 1
-        },
-        eléctrico: {
-          fuego: 1,
-          agua: 2,
-          hierba: 1,
-          eléctrico: 1
-        }
-      };
-      return efectividad[tipoAtacante][tipoDefensor] || 1;
-    }
-
-    /**
-     * Calcula el daño causado por el ataque de un Pokémon al defensor.
-     * 
-     * @param ataque - El valor de ataque del Pokémon atacante.
-     * @param defensa - El valor de defensa del Pokémon defensor.
-     * @param efectividad - El valor de efectividad del ataque según los tipos.
-     * @returns El valor de daño calculado.
-     * 
-     * ```typescript
-     * const danio = this.calcularDanio(50, 40, 2);
-     * ```
-     */
-    private calcularDanio(ataque: number, defensa: number, efectividad: number): number {
-      return 50 * (ataque / defensa) * efectividad;
-    }
-  
-    /**
-     * Inicia el combate entre los dos Pokémon y muestra el progreso del combate.
-     * 
-     * ```typescript
-     * combate.start();
-     * ```
-     */
-    public start(): void {
-      let turno = 1;
-      let combateTerminado = false;
-  
-      console.log("¡Comienza el combate!\n");
-  
-      while (!combateTerminado) {
-        let atacante = turno % 2 !== 0 ? this.primerContrincante : this.segundoContrincante;
-        let defensor = turno % 2 === 0 ? this.primerContrincante : this.segundoContrincante;
-
-        const efectividad = this.obtenerEfectividad(atacante.tipo, defensor.tipo);
-  
-        const danio = this.calcularDanio(atacante.ataque, defensor.defensa, efectividad);
-  
-        defensor.hp -= danio;
-  
-        console.log(`Turno ${turno}:`);
-        console.log(`${atacante.nombre} ataca a ${defensor.nombre} causando ${danio.toFixed(2)} de daño.`);
-        console.log(`${defensor.nombre} tiene ahora ${defensor.hp.toFixed(2)} HP.\n`);
-  
-        if (defensor.hp <= 0) {
-          console.log(`${defensor.nombre} ha sido derrotado. ¡${atacante.nombre} gana el combate!`);
-          combateTerminado = true;
-        }
-        turno++;
-      }
-    }
-}
-
-
-
