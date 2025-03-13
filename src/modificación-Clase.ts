@@ -1,4 +1,4 @@
-import { PrintableCollection} from "../src/ejercicio1-modi"
+import { PrintableCollection } from "../src/ejercicio1-modi"
 
 /**
    * Subclase que contiene un método para imprimir elementos númericos
