@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
-import { NumericPrintableCollection } from "../src/modificación-ClaseNumeric";
-import { StringPrintableCollection } from "../src/modificación-ClaseString";
+import { NumericPrintableCollection } from "../src/modi-pr6/modificación-ClaseNumeric";
+import { StringPrintableCollection } from "../src/modi-pr6/modificación-ClaseString";
 
 describe("PrintableCollection", () => {
   test("debe agregar y recuperar elementos correctamente", () => {
