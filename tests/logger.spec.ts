@@ -91,7 +91,7 @@ describe("Logger", () => {
     expect(actions.length).toBe(0);
   });
 
-  test("debe devolver un arreglo vacío si no hay acciones dentro del rango de fechas", () => {
+  test("debe devolver el tamaño del arreglo si hay acciones dentro del rango de fechas", () => {
     const logger = Logger.getInstance();
     const now = new Date();
     const before = new Date(now.getTime() - 1000);
