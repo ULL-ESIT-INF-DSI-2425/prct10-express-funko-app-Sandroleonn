@@ -4,63 +4,77 @@ import { hideBin } from "yargs/helpers";
 import { FunkoManager } from "./services/FunkoManager.js";
 import { Funko, FunkoType, FunkoGenre } from "./models/Funko.js";
 
-const argv = yargs(hideBin(process.argv))
-  .command("add", "Añadir un Funko", {
-    username: { type: "string", demandOption: true },
-    id: { type: "number", demandOption: true },
-    name: { type: "string", demandOption: true },
-    description: { type: "string", demandOption: true },
-    type: { type: "string", choices: Object.values(FunkoType), demandOption: true },
-    genre: { type: "string", choices: Object.values(FunkoGenre), demandOption: true },
-    franchise: { type: "string", demandOption: true },
-    number: { type: "number", demandOption: true },
-    exclusive: { type: "boolean", demandOption: true },
-    specialFeatures: { type: "string", demandOption: false },
-    marketValue: { type: "number", demandOption: true },
-  }, (args) => {
+// Tipo para los argumentos de los comandos
+interface FunkoArgs {
+  username: string;
+  id: number;
+  name?: string;
+  description?: string;
+  type?: FunkoType;
+  genre?: FunkoGenre;
+  franchise?: string;
+  number?: number;
+  exclusive?: boolean;
+  specialFeatures?: string;
+  marketValue?: number;
+}
+
+// Definición común de opciones
+const funkoOptions = {
+  username: { type: 'string' as const, demandOption: true },
+  id: { type: 'number' as const, demandOption: true },
+  name: { type: 'string' as const, demandOption: true },
+  description: { type: 'string' as const, demandOption: true },
+  type: { 
+    type: 'string' as const, 
+    choices: Object.values(FunkoType), 
+    demandOption: true 
+  },
+  genre: { 
+    type: 'string' as const, 
+    choices: Object.values(FunkoGenre), 
+    demandOption: true 
+  },
+  franchise: { type: 'string' as const, demandOption: true },
+  number: { type: 'number' as const, demandOption: true },
+  exclusive: { type: 'boolean' as const, demandOption: true },
+  specialFeatures: { type: 'string' as const, demandOption: false },
+  marketValue: { type: 'number' as const, demandOption: true }
+};
+
+// Función para parsear y tipar los argumentos
+function parseArgs<T>(args: unknown): T {
+  return args as T;
+}
+
+yargs(hideBin(process.argv))
+  .command("add", "Añadir un Funko", funkoOptions, (argv) => {
+    const args = parseArgs<FunkoArgs>(argv);
     const manager = new FunkoManager(args.username);
     manager.addFunko(args as Funko);
   })
   .command("list", "Listar Funkos", {
-    username: { type: "string", demandOption: true },
-  }, (args) => {
+  }, (argv) => {
+    const args = parseArgs<{username: string}>(argv);
     const manager = new FunkoManager(args.username);
     manager.listFunkos();
   })
-
-  .command("update", "Actualizar un Funko", {
-    username: { type: "string", demandOption: true },
-    id: { type: "number", demandOption: true },
-    name: { type: "string", demandOption: true },
-    description: { type: "string", demandOption: true },
-    type: { type: "string", choices: Object.values(FunkoType), demandOption: true },
-    genre: { type: "string", choices: Object.values(FunkoGenre), demandOption: true },
-    franchise: { type: "string", demandOption: true },
-    number: { type: "number", demandOption: true },
-    exclusive: { type: "boolean", demandOption: true },
-    specialFeatures: { type: "string", demandOption: false },
-    marketValue: { type: "number", demandOption: true },
-  }, (args) => {
+  .command("update", "Actualizar un Funko", funkoOptions, (argv) => {
+    const args = parseArgs<FunkoArgs>(argv);
     const manager = new FunkoManager(args.username);
     manager.updateFunko(args as Funko);
   })
-
   .command("remove", "Eliminar un Funko", {
-    username: { type: "string", demandOption: true },
-    id: { type: "number", demandOption: true }
-  }, (args) => {
+  }, (argv) => {
+    const args = parseArgs<{username: string, id: number}>(argv);
     const manager = new FunkoManager(args.username);
     manager.removeFunko(args.id);
   })
-
   .command("read", "Mostrar un Funko", {
-    username: { type: "string", demandOption: true },
-    id: { type: "number", demandOption: true }
-  }, (args) => {
+  }, (argv) => {
+    const args = parseArgs<{username: string, id: number}>(argv);
     const manager = new FunkoManager(args.username);
     manager.showFunko(args.id);
   })
-
-
   .help()
-  .argv;
+  .parse();
