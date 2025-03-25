@@ -1,10 +1,8 @@
-// index.ts
 import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import { FunkoManager } from "./services/FunkoManager.js";
 import { Funko, FunkoType, FunkoGenre } from "./models/Funko.js";
 
-// Tipo para los argumentos de los comandos
 interface FunkoArgs {
   username: string;
   id: number;
@@ -19,7 +17,6 @@ interface FunkoArgs {
   marketValue?: number;
 }
 
-// Definición común de opciones
 const funkoOptions = {
   username: { type: 'string' as const, demandOption: true },
   id: { type: 'number' as const, demandOption: true },
@@ -42,7 +39,6 @@ const funkoOptions = {
   marketValue: { type: 'number' as const, demandOption: true }
 };
 
-// Función para parsear y tipar los argumentos
 function parseArgs<T>(args: unknown): T {
   return args as T;
 }
