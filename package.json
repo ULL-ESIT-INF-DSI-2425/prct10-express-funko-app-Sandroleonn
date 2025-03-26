@@ -6,7 +6,7 @@
     "def": "tsc-watch --onSuccess \"node dist/index.js\"",
     "doc": "typedoc",
     "test": "vitest run --watch",
-    "coverage": "vitest run --watch --coverage --coverage.include \"src/**/*.ts\" --coverage.exclude \"src/**/index.ts\" "
+    "coverage": "vitest run --watch --coverage --coverage.include \"src/**/*.ts\" --coverage.exclude \"src/**/index.ts\" --coverage.exclude \"src/ejercicio-prueba/*.ts\" "
   },
   "type": "module",
   "keywords": [],
