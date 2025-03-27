@@ -48,7 +48,7 @@ describe("FunkoManager", () => {
   });
 
   afterEach(() => {
-    // Limpiar solo el directorio del usuario de prueba
+    // Limpiar solo el directorio del usuario de prue
     if (fs.existsSync(testDir)) {
       fs.rmSync(testDir, { recursive: true, force: true });
     }
