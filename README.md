@@ -1,6 +1,6 @@
-# Práctica 8 - Aplicación para coleccionistas de Funko Pops
+# Práctica 9 - Aplicación cliente-servidor para coleccionistas de Funko Pops
 
-En esta práctica realizaremos una serie de ejercicios relacionados con los sistemas de ficheros y creación de procesos
+En esta práctica realizaremos una implementación de aplicación cliente-servidor haciendo uso de los sockets.
 
 [![CI tests](https://github.com/ULL-ESIT-INF-DSI-2425/prct08-filesystem-funko-app-Sandroleonn/actions/workflows/ci.yml/badge.svg)](https://github.com/ULL-ESIT-INF-DSI-2425/prct08-filesystem-funko-app-Sandroleonn/actions/workflows/ci.yml)
 
