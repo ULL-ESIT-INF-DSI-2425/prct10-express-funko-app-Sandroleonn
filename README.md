@@ -1,6 +1,6 @@
-# Práctica 9 - Aplicación cliente-servidor para coleccionistas de Funko Pops
+# Práctica 10 - Creación de una aplicación Express para coleccionistas de Funko Pops
 
-En esta práctica realizaremos una implementación de aplicación cliente-servidor haciendo uso de los sockets.
+En esta práctica realizaremos una implementación de aplicación de registro de Funko Pops haciendo uso de un servidor HTTP escrito con Express.
 
 [![CI tests](https://github.com/ULL-ESIT-INF-DSI-2425/prct09-sockets-funko-app-Sandroleonn/actions/workflows/ci.yml/badge.svg)](https://github.com/ULL-ESIT-INF-DSI-2425/prct09-sockets-funko-app-Sandroleonn/actions/workflows/ci.yml)
 
