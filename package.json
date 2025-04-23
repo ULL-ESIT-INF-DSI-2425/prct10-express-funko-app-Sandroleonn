@@ -6,7 +6,7 @@
     "def": "tsc-watch --onSuccess \"node dist/index.js\"",
     "doc": "typedoc",
     "test": "vitest run --watch",
-    "coverage": "vitest run --watch --coverage --coverage.include \"src/**/*.ts\"  --coverage.exclude \"src/Funko-App/index.ts\""
+    "coverage": "vitest run --watch --coverage --coverage.include \"src/**/*.ts\"  --coverage.exclude \"src/Funko-App/index.ts\" --coverage.exclude \"src/Funko-App-Http/*.ts\" --coverage.exclude \"src/ejercicio-1/*.ts\" --coverage.exclude \"src/ejercicio-2/*.ts\""
   },
   "type": "module",
   "keywords": [],
@@ -15,6 +15,7 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.19.0",
+    "@types/express": "^5.0.1",
     "@types/node": "^22.13.13",
     "@types/yargs": "^17.0.33",
     "@vitest/coverage-v8": "^3.0.5",
@@ -31,6 +32,7 @@
   },
   "dependencies": {
     "chalk": "^5.4.1",
+    "express": "^5.1.0",
     "yargs": "^17.7.2"
   }
 }
